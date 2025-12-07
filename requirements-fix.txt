@@ -1,0 +1,16 @@
+# Try installing with this order to resolve conflicts
+fastapi==0.115.5
+pydantic==2.10.3
+python-dotenv==1.0.1
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.9
+
+# Install google-genai first (needs websockets 13+)
+google-genai==1.0.0
+
+# Then uvicorn (without standard extra to avoid websockets conflict)
+uvicorn==0.32.1
+
+# Finally supabase (may need to handle websockets separately)
+supabase==2.10.0

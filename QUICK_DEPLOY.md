@@ -7,6 +7,42 @@
 - Default: Allows all origins (`*`)
 - Optional: Set `ALLOWED_ORIGINS` environment variable to restrict to specific domains
 
+### 🔧 Dependency Conflict Fix
+
+**If you're getting a websockets dependency conflict error on Render:**
+
+The issue is that `google-genai` requires `websockets>=13.0`, but `supabase`'s `realtime` dependency requires `websockets<13`. 
+
+**Solution Options:**
+
+#### Option 1: Deploy Without Supabase (Easiest - Recommended)
+Your API works perfectly without Supabase! Just use the default `requirements.txt`:
+- ✅ All 8 financial advice categories work
+- ✅ Free tier advice works
+- ✅ All core features work
+- ❌ Premium features (user tracking, daily limits) won't work
+
+**Build Command (in Render):**
+```bash
+pip install -r requirements.txt
+```
+
+#### Option 2: Use Build Script (If You Need Supabase)
+If you need premium features, use the `build.sh` script:
+
+**In Render Dashboard:**
+1. Go to your service settings
+2. Under "Build Command", change from:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   to:
+   ```bash
+   chmod +x build.sh && ./build.sh
+   ```
+
+This will install Supabase with a workaround for the websockets conflict.
+
 ### Before Deploying
 
 1. **Set Environment Variables** (in your deployment platform):
@@ -32,3 +68,4 @@ curl https://your-api-url.com/
 ```
 
 See [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) for detailed deployment options.
+

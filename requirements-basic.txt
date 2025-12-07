@@ -1,3 +1,6 @@
+# Basic requirements (without Supabase) - No dependency conflicts
+# Use this if you don't need premium features (user tracking, daily limits)
+
 fastapi==0.115.5
 uvicorn==0.32.1
 pydantic==2.10.3
@@ -6,4 +9,3 @@ python-dotenv==1.0.1
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.9
-websockets>=13.0,<15.0
