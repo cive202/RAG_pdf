@@ -41,15 +41,11 @@ Set these in your deployment platform:
 # Required
 GEMINI_API_KEY=your-gemini-api-key
 
-# Required for premium features
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_KEY=your-supabase-anon-key
-
 # Required for JWT authentication
 JWT_SECRET_KEY=your-strong-random-secret-key-min-32-chars
 
 # Optional
-DATABASE_URL=postgresql://...  # If using separate database
+ALLOWED_ORIGINS=https://yourdomain.com  # Restrict CORS in production
 ```
 
 ## 🚀 Deployment Options
@@ -150,7 +146,6 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 - [ ] Set `GEMINI_API_KEY` in deployment platform
 - [ ] Set `JWT_SECRET_KEY` (generate strong random key)
-- [ ] Set `SUPABASE_URL` and `SUPABASE_KEY` (if using premium features)
 - [ ] Deploy to chosen platform
 - [ ] Test API endpoint
 - [ ] Verify CORS works from frontend

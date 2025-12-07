@@ -46,43 +46,7 @@ JWT_SECRET_KEY=your-very-long-random-secret-key-here-min-32-chars
 
 ## Optional Environment Variables
 
-### 3. SUPABASE_URL (Optional - for premium features)
-
-**What it is:** Your Supabase project URL.
-
-**How to get it:**
-1. Go to [supabase.com](https://supabase.com)
-2. Create/select your project
-3. Go to Settings → API
-4. Copy the "Project URL"
-
-**Example:**
-```env
-SUPABASE_URL=https://xxxxxxxxxxxxx.supabase.co
-```
-
-**When needed:** Only if you want to use premium features (user tracking, daily limits, expense history).
-
----
-
-### 4. SUPABASE_KEY (Optional - for premium features)
-
-**What it is:** Your Supabase anonymous/public API key.
-
-**How to get it:**
-1. Same as above (Settings → API)
-2. Copy the "anon/public" key (starts with `eyJ...`)
-
-**Example:**
-```env
-SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxxxxxxxxxx
-```
-
-**When needed:** Must be set together with SUPABASE_URL for premium features.
-
----
-
-### 5. ALLOWED_ORIGINS (Optional - for CORS restriction)
+### 3. ALLOWED_ORIGINS (Optional - for CORS restriction)
 
 **What it is:** Comma-separated list of allowed frontend domains.
 
@@ -99,21 +63,11 @@ ALLOWED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
 
 ## Complete .env File Example
 
-### Minimal Setup (Free tier only):
-```env
-GEMINI_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-JWT_SECRET_KEY=your-generated-secret-key-here
-```
-
-### Full Setup (With premium features):
+### Complete Setup:
 ```env
 # Required
 GEMINI_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 JWT_SECRET_KEY=your-generated-secret-key-here
-
-# Optional - Premium features
-SUPABASE_URL=https://xxxxxxxxxxxxx.supabase.co
-SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxxxxxxxxxx
 
 # Optional - Security
 ALLOWED_ORIGINS=https://yourdomain.com
@@ -178,6 +132,6 @@ load_dotenv()
 
 print("GEMINI_API_KEY:", "✅ Set" if os.getenv("GEMINI_API_KEY") else "❌ Missing")
 print("JWT_SECRET_KEY:", "✅ Set" if os.getenv("JWT_SECRET_KEY") else "❌ Missing")
-print("SUPABASE_URL:", "✅ Set" if os.getenv("SUPABASE_URL") else "⚠️ Optional")
+print("ALLOWED_ORIGINS:", "✅ Set" if os.getenv("ALLOWED_ORIGINS") else "⚠️ Optional (defaults to *)")
 ```
 

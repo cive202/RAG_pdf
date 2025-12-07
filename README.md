@@ -40,16 +40,9 @@ Create `.env` file:
 # Gemini API
 GEMINI_API_KEY=your-gemini-api-key
 
-# Supabase (for premium features)
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_KEY=your-supabase-anon-key
+# JWT Secret Key
 JWT_SECRET_KEY=your-secret-jwt-key
-
-# Optional: For production
-DATABASE_URL=postgresql://...
 ```
-
-See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for detailed Supabase setup.
 
 ### 3. Run the Server
 
@@ -264,7 +257,6 @@ curl -X POST "http://localhost:8000/api/v1/advice" \
 
 - **FastAPI** - Modern Python web framework
 - **Google Gemini 2.5 Flash** - AI-powered financial advice
-- **Supabase** - Database & user management
 - **JWT** - Authentication
 - **Pydantic** - Data validation
 - **Uvicorn** - ASGI server

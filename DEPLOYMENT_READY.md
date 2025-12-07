@@ -26,12 +26,6 @@ GEMINI_API_KEY=your-gemini-api-key
 JWT_SECRET_KEY=your-strong-random-secret-key
 ```
 
-**Optional (for premium features):**
-```env
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_KEY=your-supabase-key
-```
-
 ### Step 2: Deploy
 
 - **Railway**: Connect GitHub repo → Deploy

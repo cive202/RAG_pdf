@@ -11,7 +11,6 @@ import json
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from supabase import create_client, Client
 from collections import defaultdict
 
 # Load environment variables from .env file
@@ -86,13 +85,6 @@ if not gemini_api_key:
 
 # Initialize Gemini client (will use GEMINI_API_KEY from environment)
 client = genai.Client(api_key=gemini_api_key)
-
-# Supabase setup
-supabase_url = os.getenv("SUPABASE_URL", "")
-supabase_key = os.getenv("SUPABASE_KEY", "")
-supabase: Optional[Client] = None
-if supabase_url and supabase_key:
-    supabase = create_client(supabase_url, supabase_key)
 
 # JWT settings
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-in-production")
@@ -202,65 +194,8 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     token = credentials.credentials
     return get_user_from_token(token)
 
-def check_premium_status(user_id: Optional[str]) -> bool:
-    """Check if user has premium subscription"""
-    if not user_id or not supabase:
-        return False
-    try:
-        result = supabase.table("users").select("is_premium").eq("id", user_id).execute()
-        if result.data:
-            return result.data[0].get("is_premium", False)
-    except:
-        pass
-    return False
-
-def check_daily_limit(user_id: Optional[str]) -> bool:
-    """Check if user has exceeded daily query limit"""
-    if not user_id or not supabase:
-        return True  # Allow if no user tracking
-    try:
-        today = datetime.now().date().isoformat()
-        result = supabase.table("query_logs").select("count").eq("user_id", user_id).eq("date", today).execute()
-        count = result.data[0].get("count", 0) if result.data else 0
-        is_premium = check_premium_status(user_id)
-        limit = 999999 if is_premium else 5
-        return count < limit
-    except:
-        return True
-
-def log_query(user_id: Optional[str], category: str):
-    """Log user query"""
-    if not user_id or not supabase:
-        return
-    try:
-        today = datetime.now().date().isoformat()
-        supabase.table("query_logs").upsert({
-            "user_id": user_id,
-            "date": today,
-            "category": category,
-            "count": 1
-        }, on_conflict="user_id,date").execute()
-    except:
-        pass
-
-def get_past_data(user_id: Optional[str]) -> Dict:
-    """Get user's past expenses and goals from database"""
-    if not user_id or not supabase:
-        return {}
-    try:
-        # Get last month's expenses
-        last_month = (datetime.now() - timedelta(days=30)).strftime("%Y-%m")
-        expenses_result = supabase.table("expenses").select("*").eq("user_id", user_id).eq("month", last_month).execute()
-        
-        # Get goals
-        goals_result = supabase.table("goals").select("*").eq("user_id", user_id).eq("status", "active").execute()
-        
-        return {
-            "last_month_expenses": expenses_result.data if expenses_result.data else {},
-            "active_goals": goals_result.data if goals_result.data else []
-        }
-    except:
-        return {}
+# Premium and user tracking features removed (previously required Supabase)
+# All users now have unlimited access to all features
 
 SYSTEM_PROMPTS = {
     "buy": """You are "Paisa Ko Sahayogi" - Nepal's smartest personal finance advisor for buying decisions (bikes, phones, gold, laptops, gadgets, etc.).
@@ -504,14 +439,8 @@ async def get_advice(request: AdviceRequest):
         if not request:
             raise HTTPException(status_code=422, detail="Invalid request body")
         
-        # Check premium status
-        is_premium = request.is_premium
-        if request.user_id:
-            is_premium = check_premium_status(request.user_id)
-            # Check daily limit for free users
-            if not is_premium and not check_daily_limit(request.user_id):
-                raise HTTPException(status_code=429, detail="Daily query limit reached. Upgrade to premium for unlimited queries.")
-            log_query(request.user_id, request.category)
+        # Premium status - all users have full access
+        is_premium = True  # All features available to all users
         
         system_prompt = SYSTEM_PROMPTS.get(request.category)
         if not system_prompt:
@@ -520,8 +449,8 @@ async def get_advice(request: AdviceRequest):
         total_expenses = sum(request.monthly_expenses_npr.values())
         realistic_savings = (request.monthly_income_npr - total_expenses) * 0.85
         
-        # Get past data for personalized responses
-        past_data = get_past_data(request.user_id) if request.user_id else {}
+        # Past data feature removed (previously required Supabase)
+        past_data = {}
         
         # Determine response length based on mode
         word_limit = 100 if request.mode == "simple" else 300
@@ -667,26 +596,10 @@ CRITICAL: All text must be in English only. Do not use any Nepali words, greetin
 
 @app.post("/api/v1/feedback", response_model=FeedbackResponse)
 async def get_feedback(request: FeedbackRequest):
-    """Monthly feedback on past expenditures - Premium feature"""
+    """Monthly feedback on past expenditures"""
     try:
-        # Check premium status
-        is_premium = False
-        if request.user_id and supabase:
-            is_premium = check_premium_status(request.user_id)
-            if not is_premium:
-                raise HTTPException(status_code=403, detail="Premium subscription required for feedback feature")
-        
-        # Store expenses in database
-        if supabase and request.user_id:
-            try:
-                supabase.table("expenses").upsert({
-                    "user_id": request.user_id,
-                    "month": request.month,
-                    "expenses": request.expenses,
-                    "total": sum(request.expenses.values())
-                }, on_conflict="user_id,month").execute()
-            except:
-                pass
+        # All users have access to feedback feature
+        is_premium = True
         
         total_expenses = sum(request.expenses.values())
         
