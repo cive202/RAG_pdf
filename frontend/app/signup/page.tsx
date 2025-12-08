@@ -60,7 +60,7 @@ export default function SignupPage() {
         // User is immediately signed in (email confirmation disabled)
         router.push("/onboarding")
       } else {
-        router.push("/signup-success")
+      router.push("/signup-success")
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Failed to create account"
