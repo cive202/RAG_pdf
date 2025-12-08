@@ -4,7 +4,7 @@ services:
     env: python
     region: oregon
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --app-dir backend
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 8080 --app-dir backend
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.4
