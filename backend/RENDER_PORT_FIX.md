@@ -16,10 +16,13 @@ Bind your service to at least one port.
 
 ### Step 2: Configure These Settings
 
+**⚠️ CRITICAL: Root Directory MUST be set!**
+
 **Root Directory:**
 ```
 backend
 ```
+**This is the MOST IMPORTANT setting!** Without this, Render looks in the wrong place.
 
 **Build Command:**
 ```
@@ -35,6 +38,11 @@ uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
 python -m uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
+
+**How to set Root Directory in Render:**
+1. In Settings tab, scroll down to "Root Directory"
+2. Enter: `backend` (just the word "backend", no quotes, no slash)
+3. Click "Save Changes"
 
 ### Step 3: Verify Environment Variables
 
