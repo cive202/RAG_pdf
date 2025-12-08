@@ -511,7 +511,7 @@ CRITICAL: All text must be in English only. Do not use any Nepali words, greetin
         
         # Use Gemini API to generate content
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.5-flash",
             contents=full_prompt
         )
         
@@ -642,7 +642,7 @@ Provide feedback in JSON format:
 Focus on Nepal-specific context. Be encouraging but honest. All text in English only."""
 
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.5-flash",
             contents=expense_analysis_prompt
         )
         
