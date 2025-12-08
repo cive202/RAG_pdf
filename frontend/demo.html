@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paisa Ko Sahayogi - Nepal's Smartest Finance Advisor</title>
+    <meta name="description"
+        content="Get personalized financial advice for buying, loans, taxes, investments, and more - tailored for Nepal's economy">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Premium Color Palette */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent-purple: #667eea;
+            --accent-pink: #f5576c;
+            --accent-cyan: #00f2fe;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(245, 87, 108, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 242, 254, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 15s ease infinite;
+        }
+
+        @keyframes backgroundShift {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .api-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease 0.2s both;
+            margin-bottom: 2rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .required {
+            color: var(--accent-pink);
+        }
+
+        input,
+        select,
+        textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent-purple);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Category Pills */
+        .category-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-pill {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .category-pill.active {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Response Card */
+        .response-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease;
+            margin-top: 2rem;
+        }
+
+        .response-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .response-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .response-badge {
+            padding: 0.5rem 1rem;
+            background: var(--success-gradient);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .advice-section {
+            margin-bottom: 2rem;
+        }
+
+        .advice-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Tips List */
+        .tips-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .tip-item {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid var(--accent-cyan);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .tip-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(4px);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Alternatives */
+        .alternatives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .alternative-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .alternative-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .alternative-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        .alternative-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(245, 87, 108, 0.1);
+            border: 1px solid rgba(245, 87, 108, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: #ff6b6b;
+            margin-top: 1rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .form-card,
+            .response-card {
+                padding: 1.5rem;
+            }
+
+            .category-selector {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            font-size: 1.75rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Paisa Ko Sahayogi</h1>
+            <p class="subtitle">Nepal's Smartest Finance Advisor</p>
+            <div class="api-status">
+                <span class="status-dot"></span>
+                <span id="apiStatusText">Ready to Connect</span>
+            </div>
+        </header>
+
+        <div class="form-card">
+            <h2 class="section-header">
+                <span class="section-icon">📊</span>
+                Get Financial Advice
+            </h2>
+
+            <form id="adviceForm">
+                <!-- Category Selection -->
+                <div class="form-group">
+                    <label>Select Category <span class="required">*</span></label>
+                    <div class="category-selector">
+                        <div class="category-pill active" data-category="buy">
+                            🛒 Buy
+                        </div>
+                        <div class="category-pill" data-category="loan">
+                            💳 Loan
+                        </div>
+                        <div class="category-pill" data-category="tax">
+                            📋 Tax
+                        </div>
+                        <div class="category-pill" data-category="big-goal">
+                            🎯 Big Goal
+                        </div>
+                        <div class="category-pill" data-category="festival">
+                            🎉 Festival
+                        </div>
+                        <div class="category-pill" data-category="reduce-expense">
+                            💸 Reduce Expense
+                        </div>
+                        <div class="category-pill" data-category="invest">
+                            📈 Invest
+                        </div>
+                        <div class="category-pill" data-category="side-income">
+                            💼 Side Income
+                        </div>
+                    </div>
+                    <input type="hidden" id="category" name="category" value="buy" required>
+                </div>
+
+                <!-- Form Grid -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="message">Your Question <span class="required">*</span></label>
+                        <textarea id="message" name="message"
+                            placeholder="E.g., I want to buy a new bike worth NPR 200,000" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly_income_npr">Monthly Income (NPR) <span class="required">*</span></label>
+                        <input type="number" id="monthly_income_npr" name="monthly_income_npr" placeholder="50000"
+                            required min="0" step="1000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="current_savings_npr">Current Savings (NPR)</label>
+                        <input type="number" id="current_savings_npr" name="current_savings_npr" placeholder="10000"
+                            min="0" step="1000" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="Kathmandu" value="kathmandu">
+                    </div>
+                </div>
+
+                <!-- Monthly Expenses -->
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Monthly Expenses <span class="required">*</span></label>
+                    <div class="form-grid" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label for="expense_food">🍔 Food</label>
+                            <input type="number" id="expense_food" name="expense_food" placeholder="15000" min="0"
+                                step="500" value="15000">
+                        </div>
+                        <div class="form-group">
+                            <label for="expense_rent">🏠 Rent</label>
+                            <input type="number" id="expense_rent" name="expense_rent" placeholder="10000" min="0"
+                                step="500" value="10000">
+                        </div>
+                        <div class="form-group">
+                            <label for="expense_transport">🚗 Transport</label>
+                            <input type="number" id="expense_transport" name="expense_transport" placeholder="5000"
+                                min="0" step="500" value="5000">
+                        </div>
+                        <div class="form-group">
+                            <label for="expense_utilities">💡 Utilities</label>
+                            <input type="number" id="expense_utilities" name="expense_utilities" placeholder="3000"
+                                min="0" step="500" value="3000">
+                        </div>
+                        <div class="form-group">
+                            <label for="expense_entertainment">🎮 Entertainment</label>
+                            <input type="number" id="expense_entertainment" name="expense_entertainment"
+                                placeholder="2000" min="0" step="500" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="expense_others">📦 Others</label>
+                            <input type="number" id="expense_others" name="expense_others" placeholder="2000" min="0"
+                                step="500" value="0">
+                        </div>
+                    </div>
+                    <small
+                        style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem; display: block;">
+                        💡 Enter your monthly expenses in each category. Leave as 0 if not applicable.
+                    </small>
+                </div>
+
+                <!-- Mode Selection -->
+                <div class="form-group">
+                    <label for="mode">Response Mode</label>
+                    <select id="mode" name="mode">
+                        <option value="simple">Simple</option>
+                        <option value="indepth">In-Depth</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Get Financial Advice
+                </button>
+            </form>
+        </div>
+
+        <!-- Response Section (Hidden by default) -->
+        <div id="responseSection" class="hidden"></div>
+
+        <!-- Error Section (Hidden by default) -->
+        <div id="errorSection" class="hidden"></div>
+    </div>
+
+    <script>
+        // API Configuration - Connected to Deployed Render Service
+        const API_BASE_URL = 'https://rag-pdf-ai31.onrender.com';
+        const API_ENDPOINT = '/api/v1/advice';
+
+        // DOM Elements
+        const form = document.getElementById('adviceForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const responseSection = document.getElementById('responseSection');
+        const errorSection = document.getElementById('errorSection');
+        const apiStatusText = document.getElementById('apiStatusText');
+        const categoryPills = document.querySelectorAll('.category-pill');
+        const categoryInput = document.getElementById('category');
+
+        // Category Selection
+        categoryPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                categoryPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                categoryInput.value = pill.dataset.category;
+            });
+        });
+
+        // Check API Status
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/`);
+                const data = await response.json();
+                if (data.message) {
+                    apiStatusText.textContent = '✅ API Connected';
+                    apiStatusText.parentElement.style.background = 'rgba(79, 172, 254, 0.1)';
+                }
+            } catch (error) {
+                apiStatusText.textContent = '⚠️ API Not Connected';
+                apiStatusText.parentElement.style.background = 'rgba(245, 87, 108, 0.1)';
+            }
+        }
+
+        // Form Submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Clear previous responses
+            responseSection.classList.add('hidden');
+            errorSection.classList.add('hidden');
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Getting Advice...';
+
+            try {
+                // Build expenses object from individual fields
+                const expenses = {};
+
+                const food = parseFloat(document.getElementById('expense_food').value) || 0;
+                const rent = parseFloat(document.getElementById('expense_rent').value) || 0;
+                const transport = parseFloat(document.getElementById('expense_transport').value) || 0;
+                const utilities = parseFloat(document.getElementById('expense_utilities').value) || 0;
+                const entertainment = parseFloat(document.getElementById('expense_entertainment').value) || 0;
+                const others = parseFloat(document.getElementById('expense_others').value) || 0;
+
+                if (food > 0) expenses.food = food;
+                if (rent > 0) expenses.rent = rent;
+                if (transport > 0) expenses.transport = transport;
+                if (utilities > 0) expenses.utilities = utilities;
+                if (entertainment > 0) expenses.entertainment = entertainment;
+                if (others > 0) expenses.others = others;
+
+                // Validate that at least one expense is provided
+                if (Object.keys(expenses).length === 0) {
+                    throw new Error('Please enter at least one expense category');
+                }
+
+                // Prepare request body
+                const requestBody = {
+                    category: categoryInput.value,
+                    message: document.getElementById('message').value,
+                    monthly_income_npr: parseFloat(document.getElementById('monthly_income_npr').value),
+                    monthly_expenses_npr: expenses,
+                    current_savings_npr: parseFloat(document.getElementById('current_savings_npr').value) || 0,
+                    location: document.getElementById('location').value || 'kathmandu',
+                    mode: document.getElementById('mode').value,
+                    is_premium: false
+                };
+
+                console.log('Sending request:', requestBody);
+
+                // Make API call
+                const response = await fetch(`${API_BASE_URL}${API_ENDPOINT}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Response:', data);
+
+                // Display response
+                displayResponse(data);
+
+            } catch (error) {
+                console.error('Error:', error);
+                displayError(error.message);
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Get Financial Advice';
+            }
+        });
+
+        // Display Response
+        function displayResponse(data) {
+            const html = `
+                <div class="response-card">
+                    <div class="response-header">
+                        <h2 class="response-title">💡 Your Financial Advice</h2>
+                        <span class="response-badge">${data.category.toUpperCase()}</span>
+                    </div>
+
+                    <div class="advice-section">
+                        <div class="advice-text">
+                            ${data.response_en || data.response_np}
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        ${data.target_amount_npr ? `
+                        <div class="stat-card">
+                            <div class="stat-label">Target Amount</div>
+                            <div class="stat-value">NPR ${data.target_amount_npr.toLocaleString()}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${data.realistic_monthly_savings_npr ? `
+                        <div class="stat-card">
+                            <div class="stat-label">Monthly Savings</div>
+                            <div class="stat-value">NPR ${data.realistic_monthly_savings_npr.toLocaleString()}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${data.months_needed ? `
+                        <div class="stat-card">
+                            <div class="stat-label">Months Needed</div>
+                            <div class="stat-value">${data.months_needed}</div>
+                        </div>
+                        ` : ''}
+                        
+                        ${data.progress_percent !== undefined ? `
+                        <div class="stat-card">
+                            <div class="stat-label">Progress</div>
+                            <div class="stat-value">${data.progress_percent}%</div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    ${data.tips && data.tips.length > 0 ? `
+                    <div class="advice-section">
+                        <h3 class="section-header">
+                            <span class="section-icon">💡</span>
+                            Tips for Success
+                        </h3>
+                        <ul class="tips-list">
+                            ${data.tips.map(tip => `
+                                <li class="tip-item">
+                                    <span class="tip-icon">✨</span>
+                                    <span>${tip}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+
+                    ${data.alternatives && data.alternatives.length > 0 ? `
+                    <div class="advice-section">
+                        <h3 class="section-header">
+                            <span class="section-icon">🔄</span>
+                            Alternative Options
+                        </h3>
+                        <div class="alternatives-grid">
+                            ${data.alternatives.map(alt => `
+                                <div class="alternative-card">
+                                    <div class="alternative-name">${alt.name}</div>
+                                    <div class="alternative-detail">
+                                        <span>Price:</span>
+                                        <strong>NPR ${alt.price_npr.toLocaleString()}</strong>
+                                    </div>
+                                    <div class="alternative-detail">
+                                        <span>Timeline:</span>
+                                        <strong>${alt.months_needed} months</strong>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            responseSection.innerHTML = html;
+            responseSection.classList.remove('hidden');
+            responseSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Display Error
+        function displayError(message) {
+            errorSection.innerHTML = `
+                <div class="error-message">
+                    <h3 style="margin-bottom: 0.5rem; font-weight: 700;">❌ Error</h3>
+                    <p>${message}</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                        💡 Make sure your API is deployed and the URL is correct in the code.
+                    </p>
+                </div>
+            `;
+            errorSection.classList.remove('hidden');
+            errorSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Initialize
+        checkAPIStatus();
+    </script>
+</body>
+
+</html>
